@@ -118,4 +118,12 @@ export default {
 			this.update_item_rates();
 		}
 	},
+
+	// Watch for changes in Total to update discount amounts
+	Total() {
+		// If we have a percentage discount, recalculate the discount amount
+		if (this.additional_discount_percentage && this.additional_discount_percentage !== 0) {
+			this.update_discount_umount();
+		}
+	},
 };
