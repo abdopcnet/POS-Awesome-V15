@@ -32,9 +32,17 @@ export default {
 			sum += qty * rate;
 		});
 
-		// Subtract additional discount
-		const additional_discount = this.flt(this.additional_discount);
-		sum -= additional_discount;
+		// Calculate additional discount based on percentage of current item totals
+		// This ensures the discount scales properly with the number of items
+		let additional_discount_amount = 0;
+		if (this.additional_discount_percentage && sum > 0) {
+			additional_discount_amount = (sum * this.flt(this.additional_discount_percentage)) / 100;
+		} else if (this.additional_discount) {
+			// Fallback to fixed discount amount if percentage is not used
+			additional_discount_amount = this.flt(this.additional_discount);
+		}
+		
+		sum -= additional_discount_amount;
 
 		// Add delivery charges
 		const delivery_charges = this.flt(this.delivery_charges_rate);
